@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -7,10 +8,14 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const path = require("path");
-
 // Serve static files from the frontend build directory
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// TEMP DATA (Fake DB)
+let users = [
+  { id: 1, name: "Rahul" },
+  { id: 2, name: "Amit" }
+];
 
 /* ======================
    ROOT ROUTE (API)
@@ -18,12 +23,6 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 app.get("/api", (req, res) => {
   res.send("Backend is running properly!");
 });
-
-// TEMP DATA (Fake DB)
-let users = [
-  { id: 1, name: "Rahul" },
-  { id: 2, name: "Amit" }
-];
 
 /* ======================
    GET ALL USERS
@@ -103,9 +102,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong!", error: err.message });
 });
 
-/* ======================
-   START SERVER
-====================== */
 /* ======================
    CATCH-ALL FOR REACT ROUTER
 ====================== */
